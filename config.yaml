@@ -1,7 +1,7 @@
 ---
 baseURL: https://mterwill.com/
 languageCode: en-us
-title: Matt Terwilliger | Software Engineer
+title: Matt Terwilliger
 params:
   links:
   - iconClass: fab fa-github
