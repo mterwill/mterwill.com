@@ -31,3 +31,13 @@ body {
     line-height: 1.8em;
     text-align: justify;
 }
+
+a {
+    border-bottom: 3px solid #7ef1f9;
+    text-decoration: none;
+    color: #0151ba;
+}
+
+a:hover {
+    border-bottom: 3px solid #0151ba;
+}
