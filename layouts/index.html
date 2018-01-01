@@ -1,6 +1,7 @@
 <html lang="en-US">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>{{ .Title }}</title>
 
@@ -16,11 +17,6 @@
             </div>
             <div class="content">
                 {{ .Content }}
-            </div>
-            <div class="links">
-                {{ range .Site.Params.links }}
-                <a href="{{ .link }}" target="_blank"><i class="{{ .iconClass }}"></i></a>
-                {{ end }}
             </div>
         </div>
     </body>
