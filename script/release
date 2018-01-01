@@ -31,3 +31,6 @@ git tag "$RELEASE"
 
 step "Starting rsync"
 rsync --recursive --verbose --delete public/ cowboy:/var/www/mterwill.com/
+
+step "git push --tags"
+git push --tags
