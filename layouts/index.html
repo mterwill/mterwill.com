@@ -18,6 +18,16 @@
             <div class="content">
                 {{ .Content }}
             </div>
+            <hr>
+            <h2>Writing</h2>
+            <ul class="recent-posts">
+                {{ range .Data.Pages }}
+                <li>
+                <span class="date">{{ .Date.Format "Jan 2, 2006" }}</span>
+                <a href="{{ .Permalink }}">{{ .Title }}</a>
+                </li>
+                {{ end }}
+            </div>
         </div>
     </body>
 </html>
