@@ -4,7 +4,7 @@ h1: Matt Terwilliger
 
 <span style="font-size: 1.7em; padding-right: 5px;">&#128075;</span>
 I think I'm supposed to start this with some sort of title/tagline. That's hard.
-Let's go with "techie" for now?
+Let's go with "techie" for now.
 
 I recently moved south to Atlanta where I work as a Site Reliability Engineer
 for [MailChimp][]. Prior to that I studied Computer Science and Business at the
