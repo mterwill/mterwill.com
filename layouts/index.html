@@ -1,22 +1,26 @@
-<html>
+<html lang="en-US">
     <head>
+        <meta charset="utf-8">
+
+        <title>{{ .Title }}</title>
+
         <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono" rel="stylesheet">
         <link href="/css/theme.css" rel="stylesheet">
         <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
+
     </head>
     <body>
         <div class="wrapper">
             <div class="header">
-                <h1>Matt Terwilliger</h1>
+                <h1>{{ .Params.h1 }}</h1>
             </div>
             <div class="content">
-                <p>Hello world.</p>
+                {{ .Content }}
             </div>
             <div class="links">
-                <i class="fab fa-github"></i>
-                <i class="fab fa-instagram"></i>
-                <i class="fab fa-500px"></i>
-                <i class="fas fa-key"></i>
+                {{ range .Site.Params.links }}
+                <a href="{{ .link }}" target="_blank"><i class="{{ .iconClass }}"></i></a>
+                {{ end }}
             </div>
         </div>
     </body>
