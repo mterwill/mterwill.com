@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+CLEAR='\033[0m'
+
+fatal() {
+    echo -e "$RED""==>" $@ "$CLEAR"
+    exit 1
+}
+
+step() {
+    echo -e "\n$GREEN""==>" $@ "$CLEAR"
+}
+
+set -e
+
+cd "$(dirname $0)/.."
+
+if [[ "$(git status --porcelain)" ]]; then
+    echo
+    # fatal "You have pending changes." 
+fi
+
+step "Generating site"
+
+hugo # generate the site
+
+RELEASE="$(date -u +'%Y-%m-%dT%H%M%S')"
+step "Tagging release $RELEASE"
+git tag "$RELEASE"
+
+step "Starting rsync"
+rsync --recursive --verbose --delete public/ cowboy:/var/www/mterwill.com/
