@@ -26,3 +26,8 @@ body {
     text-transform: lowercase;
     width: 75%;
 }
+
+.content {
+    line-height: 1.8em;
+    text-align: justify;
+}
