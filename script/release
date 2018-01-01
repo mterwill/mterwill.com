@@ -18,8 +18,7 @@ set -e
 cd "$(dirname $0)/.."
 
 if [[ "$(git status --porcelain)" ]]; then
-    echo
-    # fatal "You have pending changes." 
+    fatal "Abort: You have pending changes." 
 fi
 
 step "Generating site"
