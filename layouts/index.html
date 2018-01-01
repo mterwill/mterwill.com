@@ -18,6 +18,7 @@
             <div class="content">
                 {{ .Content }}
             </div>
+            {{ if .Data.Pages }}
             <hr>
             <h2>Writing</h2>
             <ul class="recent-posts">
@@ -27,7 +28,8 @@
                 <a href="{{ .Permalink }}">{{ .Title }}</a>
                 </li>
                 {{ end }}
-            </div>
+            </ul>
+            {{ end }}
         </div>
     </body>
 </html>
