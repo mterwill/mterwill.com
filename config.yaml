@@ -2,13 +2,3 @@
 baseURL: https://mterwill.com/
 languageCode: en-us
 title: Matt Terwilliger
-params:
-  links:
-  - iconClass: fab fa-github
-    link: https://github.com/mterwill
-  - iconClass: fab fa-instagram
-    link: https://instagram.com/mterwill
-  - iconClass: fab fa-500px
-    link: https://500px.com/mterwill
-  - iconClass: fas fa-key
-    link: https://keybase.com/mterwill
