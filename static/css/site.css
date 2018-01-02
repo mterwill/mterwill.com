@@ -6,11 +6,12 @@ body {
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    padding: 0 20px;
 }
 
 .header {
     background-image: url("/img/mterwill-rectangle.jpg");
-    background-position: center; 
+    background-position: 30%;
     color: white;
     margin-top: 30px;
     background-size: cover;
