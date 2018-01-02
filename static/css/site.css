@@ -67,3 +67,13 @@ ul.recent-posts > li > .date {
     font-size: 0.9em;
     padding-right: 5px;
 }
+
+.header > h1 > a, .header > h1 > a:visited {
+    text-decoration: none;
+    border-bottom: none;
+    color: white;
+}
+
+.header > h1 > a:hover {
+    border-bottom: 3px solid white;
+}
