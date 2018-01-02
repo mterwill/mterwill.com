@@ -1,34 +1,17 @@
-<!DOCTYPE html>
-<html lang="en-US">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>{{ .Site.Title }}</title>
-
-        <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono" rel="stylesheet">
-        <link href="/css/site.css" rel="stylesheet">
-    </head>
-    <body>
-        <div class="wrapper">
-            <div class="header">
-                <h1>{{ .Params.h1 }}</h1>
-            </div>
-            <div class="content">
-                {{ .Content }}
-            </div>
-            {{ if .Data.Pages }}
-            <hr>
-            <h2>Writing</h2>
-            <ul class="recent-posts">
-                {{ range .Data.Pages }}
-                <li>
-                <span class="date">{{ .Date.Format "Jan 2, 2006" }}</span>
-                <a href="{{ .Permalink }}">{{ .Title }}</a>
-                </li>
-                {{ end }}
-            </ul>
-            {{ end }}
-        </div>
-    </body>
-</html>
+{{ define "main" }}
+<div class="content">
+    {{ .Content }}
+</div>
+{{ if .Data.Pages }}
+<hr>
+<h2>Writing</h2>
+<ul class="recent-posts">
+    {{ range .Data.Pages }}
+    <li>
+        <span class="date">{{ .Date.Format "Jan 2, 2006" }}</span>
+        <a href="{{ .Permalink }}">{{ .Title }}</a>
+    </li>
+    {{ end }}
+</ul>
+{{ end }}
+{{ end }}
