@@ -29,8 +29,8 @@ RELEASE="$(date -u +'%Y-%m-%dT%H%M%S')"
 step "Tagging release $RELEASE"
 git tag "$RELEASE"
 
-step "Starting rsync"
-rsync --recursive --verbose --delete public/ cowboy:/var/www/mterwill.com/
+step "Starting sync"
+aws s3 sync --acl public-read public/ s3://mterwill.com/
 
 step "git push --tags"
 git push --tags
