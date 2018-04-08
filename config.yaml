@@ -2,3 +2,5 @@
 baseURL: https://mterwill.com/
 languageCode: en-us
 title: Matt Terwilliger
+pygmentsCodefences: true
+pygmentsCodeFencesGuessSyntax: true

@@ -18,7 +18,7 @@ How and why they work under the hood is a little more subtle.
 To begin understanding the dot in relation to file paths we need to introduce
 the two different types of paths: absolute and relative. An absolute path begins
 with a `/`, the root directory. A relative path is any path that does not begin
-with `/`.  It is relative to a processes' current directory. 
+with `/`.  It is relative to a processes' current directory.
 
 You may be thinking that there are a number of places where this handy
 abstraction could actually be implemented: in the shell, operating system,
@@ -33,23 +33,25 @@ the kernel as specified in the [POSIX standard][filesystem-dot]:
 If we want to verify, we can look at the [inode][]s of some paths to verify that
 they are indeed the same file on disk.
 
-    $ stat /
-      File: ‘/’
-      Size: 4096            Blocks: 8          IO Block: 4096   directory
-    Device: 100080h/1048704d        Inode: 41589       Links: 1
-    Access: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
-    Access: 2018-04-01 21:02:40.459999382 +0000
-    Modify: 2018-04-01 21:02:08.169999549 +0000
-    Change: 2018-04-01 21:02:08.169999549 +0000
-     Birth: -
+```
+$ stat /
+  File: ‘/’
+  Size: 4096            Blocks: 8          IO Block: 4096   directory
+Device: 100080h/1048704d        Inode: 41589       Links: 1
+Access: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+Access: 2018-04-01 21:02:40.459999382 +0000
+Modify: 2018-04-01 21:02:08.169999549 +0000
+Change: 2018-04-01 21:02:08.169999549 +0000
+ Birth: -
 
-    $ cd /
-    $ stat --format %i .
-    41589
+$ cd /
+$ stat --format %i .
+41589
 
-    $ cd /tmp/
-    $ stat --format %i ..
-    41589
+$ cd /tmp/
+$ stat --format %i ..
+41589
+```
 
 Another common use is to distinguish between hidden files. There's nothing
 special about this except that it's hidden by default.
@@ -59,18 +61,20 @@ In POSIX-compliant shells (think bash, zsh, etc.), the command `.` followed by a
 filename executes commands from a file in the current shell. Don't take my word
 for it:
 
-    $ help .
-    .: . filename [arguments]
-    Execute commands from a file in the current shell.
+```
+$ help .
+.: . filename [arguments]
+Execute commands from a file in the current shell.
 
-    Read and execute commands from FILENAME in the current shell.  The
-    entries in $PATH are used to find the directory containing FILENAME.
-    If any ARGUMENTS are supplied, they become the positional parameters
-    when FILENAME is executed.
+Read and execute commands from FILENAME in the current shell.  The
+entries in $PATH are used to find the directory containing FILENAME.
+If any ARGUMENTS are supplied, they become the positional parameters
+when FILENAME is executed.
 
-    Exit Status:
-    Returns the status of the last command executed in FILENAME; fails if
-    FILENAME cannot be read.
+Exit Status:
+Returns the status of the last command executed in FILENAME; fails if
+FILENAME cannot be read.
+```
 
 Note that we have to use `help` here, not `man` because the `.` is a bash
 [builtin][], meaning it's literally built into bash, which itself is [just a C
@@ -97,16 +101,20 @@ can reference. One of which, `$$`, will tell us our current PID.
 
 Assume I'm in a bash shell with PID 76735:
 
-    $ echo $$
-    76735
+```
+$ echo $$
+76735
+```
 
 Take this simple script:
 
-    $ cat /tmp/getmypid
-    #!/bin/bash
+```
+$ cat /tmp/getmypid
+#!/bin/bash
 
-    echo "My PID is $$"
-    echo "My parent's PID is $PPID"
+echo "My PID is $$"
+echo "My parent's PID is $PPID"
+```
 
 Notice `/tmp/getmypid` is an absolute file path. If our current working
 directory was `/tmp` we could also reference the same file as `./getmypid`.
@@ -114,16 +122,20 @@ directory was `/tmp` we could also reference the same file as `./getmypid`.
 If we run it normally as an external program you'll notice that the PID is new
 (a subprocess) but the parent's PID is in fact our shell:
 
-    $ chmod +x /tmp/getmypid
-    $ /tmp/getmypid
-    My PID is 77128
-    My parent's PID is 76735
+```
+$ chmod +x /tmp/getmypid
+$ /tmp/getmypid
+My PID is 77128
+My parent's PID is 76735
+```
 
 Now notice the distinction when prefaced with a `.`:
 
-    $ . /tmp/getmypid
-    My PID is 76735
-    My parent's PID is 75379
+```
+$ . /tmp/getmypid
+My PID is 76735
+My parent's PID is 75379
+```
 
 The script is being executed in the shell and the parent PID is that of whatever
 process spawned the shell.
@@ -168,52 +180,54 @@ down, so on and so forth.
 This is a bit of an oversimplification, but this article is on the dot,
 not DNS. Let's skip ahead to the action:
 
-    $ dig +trace www.google.com
-    ; <<>> DiG 9.8.3-P1 <<>> +trace www.google.com
-    ;; global options: +cmd
-    .                       29875   IN      NS      d.root-servers.net.
-    .                       29875   IN      NS      f.root-servers.net.
-    .                       29875   IN      NS      g.root-servers.net.
-    .                       29875   IN      NS      l.root-servers.net.
-    .                       29875   IN      NS      j.root-servers.net.
-    .                       29875   IN      NS      a.root-servers.net.
-    .                       29875   IN      NS      h.root-servers.net.
-    .                       29875   IN      NS      m.root-servers.net.
-    .                       29875   IN      NS      c.root-servers.net.
-    .                       29875   IN      NS      e.root-servers.net.
-    .                       29875   IN      NS      i.root-servers.net.
-    .                       29875   IN      NS      b.root-servers.net.
-    .                       29875   IN      NS      k.root-servers.net.
-    ;; Received 228 bytes from 192.168.1.1#53(192.168.1.1) in 26 ms
+```
+$ dig +trace www.google.com
+; <<>> DiG 9.8.3-P1 <<>> +trace www.google.com
+;; global options: +cmd
+.                       29875   IN      NS      d.root-servers.net.
+.                       29875   IN      NS      f.root-servers.net.
+.                       29875   IN      NS      g.root-servers.net.
+.                       29875   IN      NS      l.root-servers.net.
+.                       29875   IN      NS      j.root-servers.net.
+.                       29875   IN      NS      a.root-servers.net.
+.                       29875   IN      NS      h.root-servers.net.
+.                       29875   IN      NS      m.root-servers.net.
+.                       29875   IN      NS      c.root-servers.net.
+.                       29875   IN      NS      e.root-servers.net.
+.                       29875   IN      NS      i.root-servers.net.
+.                       29875   IN      NS      b.root-servers.net.
+.                       29875   IN      NS      k.root-servers.net.
+;; Received 228 bytes from 192.168.1.1#53(192.168.1.1) in 26 ms
 
-    com.                    172800  IN      NS      a.gtld-servers.net.
-    com.                    172800  IN      NS      b.gtld-servers.net.
-    com.                    172800  IN      NS      c.gtld-servers.net.
-    com.                    172800  IN      NS      d.gtld-servers.net.
-    com.                    172800  IN      NS      e.gtld-servers.net.
-    com.                    172800  IN      NS      f.gtld-servers.net.
-    com.                    172800  IN      NS      g.gtld-servers.net.
-    com.                    172800  IN      NS      h.gtld-servers.net.
-    com.                    172800  IN      NS      i.gtld-servers.net.
-    com.                    172800  IN      NS      j.gtld-servers.net.
-    com.                    172800  IN      NS      k.gtld-servers.net.
-    com.                    172800  IN      NS      l.gtld-servers.net.
-    com.                    172800  IN      NS      m.gtld-servers.net.
-    ;; Received 492 bytes from 199.7.83.42#53(199.7.83.42) in 49 ms
+com.                    172800  IN      NS      a.gtld-servers.net.
+com.                    172800  IN      NS      b.gtld-servers.net.
+com.                    172800  IN      NS      c.gtld-servers.net.
+com.                    172800  IN      NS      d.gtld-servers.net.
+com.                    172800  IN      NS      e.gtld-servers.net.
+com.                    172800  IN      NS      f.gtld-servers.net.
+com.                    172800  IN      NS      g.gtld-servers.net.
+com.                    172800  IN      NS      h.gtld-servers.net.
+com.                    172800  IN      NS      i.gtld-servers.net.
+com.                    172800  IN      NS      j.gtld-servers.net.
+com.                    172800  IN      NS      k.gtld-servers.net.
+com.                    172800  IN      NS      l.gtld-servers.net.
+com.                    172800  IN      NS      m.gtld-servers.net.
+;; Received 492 bytes from 199.7.83.42#53(199.7.83.42) in 49 ms
 
-    google.com.             172800  IN      NS      ns2.google.com.
-    google.com.             172800  IN      NS      ns1.google.com.
-    google.com.             172800  IN      NS      ns3.google.com.
-    google.com.             172800  IN      NS      ns4.google.com.
-    ;; Received 280 bytes from 192.41.162.30#53(192.41.162.30) in 188 ms
+google.com.             172800  IN      NS      ns2.google.com.
+google.com.             172800  IN      NS      ns1.google.com.
+google.com.             172800  IN      NS      ns3.google.com.
+google.com.             172800  IN      NS      ns4.google.com.
+;; Received 280 bytes from 192.41.162.30#53(192.41.162.30) in 188 ms
 
-    www.google.com.         300     IN      A       74.125.141.104
-    www.google.com.         300     IN      A       74.125.141.106
-    www.google.com.         300     IN      A       74.125.141.99
-    www.google.com.         300     IN      A       74.125.141.103
-    www.google.com.         300     IN      A       74.125.141.105
-    www.google.com.         300     IN      A       74.125.141.147
-    ;; Received 128 bytes from 216.239.36.10#53(216.239.36.10) in 52 ms
+www.google.com.         300     IN      A       74.125.141.104
+www.google.com.         300     IN      A       74.125.141.106
+www.google.com.         300     IN      A       74.125.141.99
+www.google.com.         300     IN      A       74.125.141.103
+www.google.com.         300     IN      A       74.125.141.105
+www.google.com.         300     IN      A       74.125.141.147
+;; Received 128 bytes from 216.239.36.10#53(216.239.36.10) in 52 ms
+```
 
 Notice how the path gradually builds up from `.` to `com.` to `google.com.` and
 finally to `www.google.com.`. We now have an IP address (actually, 6 IP
@@ -234,19 +248,21 @@ The actual IP address that gets sent over the wire is the binary representation
 of these octets. In fact, we can represent an IP address any number of ways.
 Let's hop into a Python interpreter to do some quick conversions:
 
-    $ python3
-    >>> ip_as_octets = '74.125.141.147'.split('.')
-    ['74', '125', '141', '147']
-    >>> as_binary_list = ['{:08b}'.format(int(octet)) for octet in ip_as_octets]
-    ['01001010', '01111101', '10001101', '10010011']
-    >>> as_binary = ''.join(as_binary_list)
-    '01001010011111011000110110010011'
-    >>> len(as_binary)
-    32
-    >>> as_decimal = int(as_binary, 2)
-    1249742227
-    >>> as_hex = hex(as_decimal)
-    '0x4a7d8d93'
+```python3
+$ python3
+>>> ip_as_octets = '74.125.141.147'.split('.')
+['74', '125', '141', '147']
+>>> as_binary_list = ['{:08b}'.format(int(octet)) for octet in ip_as_octets]
+['01001010', '01111101', '10001101', '10010011']
+>>> as_binary = ''.join(as_binary_list)
+'01001010011111011000110110010011'
+>>> len(as_binary)
+32
+>>> as_decimal = int(as_binary, 2)
+1249742227
+>>> as_hex = hex(as_decimal)
+'0x4a7d8d93'
+```
 
 So, 74.125.141.147 is the same as 01001010011111011000110110010011 in binary,
 1249742227 in decimal, and 0x4a7d8d93 in hexadecimal.
