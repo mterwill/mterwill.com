@@ -21,7 +21,7 @@
     {{ range $.Site.Data.talks.talks }}
     <li>
         <span class="date">{{ dateFormat "Jan 2, 2006" .date }}</span>
-        <a target="_blank" href="{{ .url }}">{{ .name }}</a>
+        <a target="_blank" rel="noopener" href="{{ .url }}">{{ .name }}</a>
     </li>
     {{ end }}
 </ul>
