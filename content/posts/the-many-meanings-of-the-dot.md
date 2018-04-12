@@ -5,61 +5,79 @@ draft: true
 ---
 
 # The Many Meanings of the Dot
+That little `.` character sure gets a lot of use on our keyboard.  Naturally, in
+prose as a full stop, but I'm talking about in _software_.
 
-The dot: so simple.
-
-We'll be talking about POSIX.
+We use `.` to navigate the Internet. We use it to quickly change directories in
+a shell. If that key stopped working, I'd notice quickly. Behind each seemingly
+innocuous dot, though hides some pretty fun abstractions. Let's dive into a few:
 
 ## In file paths
 If you've spent any time in a shell, you've probably used `.` or `..` to
 reference the current and parent directory, respectively. It's a handy shortcut!
-How and why they work under the hood is a little more subtle.
+How and why they work under the hood is more subtle.
 
 To begin understanding the dot in relation to file paths we need to introduce
-the two different types of paths: absolute and relative. An absolute path begins
-with a `/`, the root directory. A relative path is any path that does not begin
-with `/`.  It is relative to a processes' current directory.
+the two different types of paths: absolute and relative. An __absolute path__
+begins with a `/`, the root directory. A __relative path__ is any path that does
+not begin with `/`.  It is relative to a processes' current directory. All
+relative paths can be 'resolved' to an absolute path.
 
-You may be thinking that there are a number of places where this handy
-abstraction could actually be implemented: in the shell, operating system,
-kernel, filesystem, etc. Turns out this functionality is provided by
-the kernel as specified in the [POSIX standard][filesystem-dot]:
+For example, `/tmp` is an absolute path. If your current directory was `/`, you
+could also reference the same directory as `tmp`, `./tmp`, or even
+`./././././tmp`, as `.` in this context will always refer to the current
+directory.
+
+Now that we understand the _what_, let's break down the _how_: why do `.` and
+`..` behave this way? Take a simple example of writing a message into a file:
+
+```
+$ echo Hello World > /tmp/asdf.txt
+```
+
+We can read it back like we'd expect:
+
+```
+$ cd /tmp
+$ cat ./asdf.txt
+Hello World
+```
+
+But what is keeping track of the current directory? The shell? The file system?
+The operating system? Let's dig deeper.
+
+We can use a utility, `strace`, to inspect the [system calls][todo] that a
+process makes to the operating system's [kernel][todo], the low-level interface
+that's responsible for managing files, among most other core functionality.
+
+At this point we hypothesize one of two things will happen:
+
+1. We'll see a system call to read a file with an absolute path: `/tmp/asdf.txt`
+1. We'll see a system call to read a file with the relative path we originally
+   specified: `./asdf.txt`
+
+```
+# TODO: strace
+```
+
+The latter! This proves that the kernel provides the `.` and `..` abstractions
+for navigating file hierarchies. A "quick" read through the [POSIX
+standard][filesystem-dot] confirms this as well:
 
 > The special filename dot shall refer to the directory specified by its
 > predecessor. The special filename dot-dot shall refer to the parent directory
 > of its predecessor directory. As a special case, in the root directory,
 > dot-dot may refer to the root directory itself.
 
-If we want to verify, we can look at the [inode][]s of some paths to verify that
-they are indeed the same file on disk.
-
-```
-$ stat /
-  File: ‘/’
-  Size: 4096            Blocks: 8          IO Block: 4096   directory
-Device: 100080h/1048704d        Inode: 41589       Links: 1
-Access: (0755/drwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
-Access: 2018-04-01 21:02:40.459999382 +0000
-Modify: 2018-04-01 21:02:08.169999549 +0000
-Change: 2018-04-01 21:02:08.169999549 +0000
- Birth: -
-
-$ cd /
-$ stat --format %i .
-41589
-
-$ cd /tmp/
-$ stat --format %i ..
-41589
-```
-
-Another common use is to distinguish between hidden files. There's nothing
-special about this except that it's hidden by default.
+Another common (but distinct) usage of the dot in file paths is to hide files
+whose name begins with a `.`. I'll leave this one for you. Is there anything
+special about so-called dotfiles? Hint: TODO.
 
 ## Shells
 In POSIX-compliant shells (think bash, zsh, etc.), the command `.` followed by a
-filename executes commands from a file in the current shell. Don't take my word
-for it:
+filename executes commands from a file in the current shell.
+
+Don't take my word for it:
 
 ```
 $ help .
@@ -81,12 +99,17 @@ Note that we have to use `help` here, not `man` because the `.` is a bash
 program][bash].
 
 Normally, when a shell executes an external program it will do so in a
-*subprocess*. In order to execute a new command, the shell first asks the kernel
+__subprocess__. In order to execute a new command, the shell first asks the kernel
 to create a copy of itself using the `fork` system call ([`man 2 fork`][fork]).
 This copy is identical, except for its process ID (PID). The new subprocess then
 replaces itself with the program you supplied ([`man 2 execve`][execve]). This
 "program" is just a file (actually, in *nix systems, everything is just a file)
 that has its executable permission bit set (if you've ever done a `chmod +x`).
+
+> __Note__: If this was a bit confusing it's fine, you don't need to understand
+> to keep reading.
+
+TODO: make sure bash actually fork-execs
 
 Using the `.` (or, in many shells, its equivalent command `source`) skips
 fork-exec and instead reads commands from a file directly into your shell as if
@@ -165,7 +188,7 @@ and IPv4 use the dot as a separator, but each in a unique way.
 ### DNS
 In DNS, even though you don't see it, fully qualified domain names actually end
 with a dot. `www.google.com` is actually `www.google.com.`. The reason for this
-is that DNS resolution works recursively; the authoritative answer for
+is that DNS resolution works recursively. The authoritative answer for
 
 > What is www.google.com's IP address?
 
@@ -268,7 +291,7 @@ So, 74.125.141.147 is the same as 01001010011111011000110110010011 in binary,
 1249742227 in decimal, and 0x4a7d8d93 in hexadecimal.
 
 Aside: I noticed when writing this post that decimal and hexadecimal IPs are
-actually interpreted correctly by something (we've gone down enough rabbit holes
+actually interpreted correctly by _something_ (we've gone down enough rabbit holes
 for today) &mdash; try passing one into `ping`, `curl`, or even your web
 browser. Nifty!
 
@@ -280,7 +303,12 @@ Why the dot has been adopted and used in so many different ways? Maybe because
 of its use in language, its position on the keyboard, or its unimposing stature.
 I have no idea.
 
-Re-using the same, simple, character in so many ways makes it difficult to get
+Reusing the same, simple, character in so many ways is a blessing and a curse.
+We can take it at face level, but it's difficult to actually intuit what's going
+on.
+
+
+
 at what's actually going on under the hood. While opaque at first, software's
 ability to be broken down is one of my favorite things about the field.
 
