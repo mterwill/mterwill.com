@@ -77,3 +77,7 @@ ul.recent-posts > li > .date {
 .header > h1 > a:hover {
     border-bottom: 3px solid white;
 }
+
+code {
+    background-color: #ddd;
+}
