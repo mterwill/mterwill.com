@@ -80,3 +80,7 @@ ul.recent-posts > li > .date {
 code {
     background-color: #ddd;
 }
+
+pre {
+    overflow: scroll;
+}
