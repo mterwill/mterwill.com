@@ -30,7 +30,7 @@ step "Tagging release $RELEASE"
 git tag "$RELEASE"
 
 step "Starting sync"
-aws s3 sync --acl public-read public/ s3://mterwill.com/
+aws s3 sync --profile mterwill.com --acl public-read public/ s3://mterwill.com/
 
 step "git push --tags"
 git push --tags
