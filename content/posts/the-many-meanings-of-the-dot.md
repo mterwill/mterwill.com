@@ -1,16 +1,14 @@
 ---
 title: "The Many Meanings of the Dot"
 date: 2018-04-01T16:52:28-04:00
-draft: true
+draft: false
 ---
 
 # The Many Meanings of the Dot
-That little `.` character sure gets a lot of use on our keyboard.  Naturally, in
-prose as a full stop, but I'm talking about in _software_.
-
-We use `.` to navigate the Internet. We use it to quickly change directories in
-a shell. If that key stopped working, I'd notice quickly. Behind each seemingly
-innocuous dot, though hides some pretty fun abstractions. Let's dive into a few:
+That little `.` character sure gets a lot of use on our keyboard. Naturally, in
+prose as a full stop, but I'm talking about in _software_. www.google.com. `cd
+..`. The list goes on. Behind each seemingly innocuous dot, hides some pretty
+fun abstractions. Let's dive into a few:
 
 ## In file paths
 If you've spent any time in a shell, you've probably used `.` or `..` to
@@ -28,50 +26,28 @@ could also reference the same directory as `tmp`, `./tmp`, or even
 `./././././tmp`, as `.` in this context will always refer to the current
 directory.
 
-Now that we understand the _what_, let's break down the _how_: why do `.` and
-`..` behave this way? Take a simple example of writing a message into a file:
-
-```
-$ echo Hello World > /tmp/asdf.txt
-```
-
-We can read it back like we'd expect:
-
-```
-$ cd /tmp
-$ cat ./asdf.txt
-Hello World
-```
-
-But what is keeping track of the current directory? The shell? The file system?
-The operating system? Let's dig deeper.
-
-We can use a utility, `strace`, to inspect the [system calls][todo] that a
-process makes to the operating system's [kernel][todo], the low-level interface
-that's responsible for managing files, among most other core functionality.
-
-At this point we hypothesize one of two things will happen:
-
-1. We'll see a system call to read a file with an absolute path: `/tmp/asdf.txt`
-1. We'll see a system call to read a file with the relative path we originally
-   specified: `./asdf.txt`
-
-```
-# TODO: strace
-```
-
-The latter! This proves that the kernel provides the `.` and `..` abstractions
+But what provides this concept of a 'current directory'? The shell? The file
+system? Turns out it's the kernel. Each process has associated with it a working
+directory that can change throughout the life of the process (see [`man 2
+chdir`][fork] / [`man 2 getcwd`][getcwd]). Since the kernel tracks a processes'
+working directory, we hypothesize it also provides the `.` and `..` abstractions
 for navigating file hierarchies. A "quick" read through the [POSIX
-standard][filesystem-dot] confirms this as well:
+standard][filesystem-dot] confirms this:
 
 > The special filename dot shall refer to the directory specified by its
 > predecessor. The special filename dot-dot shall refer to the parent directory
 > of its predecessor directory. As a special case, in the root directory,
 > dot-dot may refer to the root directory itself.
 
-Another common (but distinct) usage of the dot in file paths is to hide files
-whose name begins with a `.`. I'll leave this one for you. Is there anything
-special about so-called dotfiles? Hint: TODO.
+An interesting property of this functionality being built in at such a low level
+is how it simplifies programs and scripts. When writing code, you don't
+necessarily need to know (or care, though you can always find out) where in the
+filesystem you are &mdash; a relative path is often just as good as an absolute
+path.
+
+Aside: another common (but distinct) usage of the dot in file paths is to hide
+files whose name begins with a `.`. I'll leave this one for you. Is there
+anything special about so-called dotfiles?
 
 ## Shells
 In POSIX-compliant shells (think bash, zsh, etc.), the command `.` followed by a
@@ -99,17 +75,13 @@ Note that we have to use `help` here, not `man` because the `.` is a bash
 program][bash].
 
 Normally, when a shell executes an external program it will do so in a
-__subprocess__. In order to execute a new command, the shell first asks the kernel
-to create a copy of itself using the `fork` system call ([`man 2 fork`][fork]).
-This copy is identical, except for its process ID (PID). The new subprocess then
-replaces itself with the program you supplied ([`man 2 execve`][execve]). This
-"program" is just a file (actually, in *nix systems, everything is just a file)
-that has its executable permission bit set (if you've ever done a `chmod +x`).
-
-> __Note__: If this was a bit confusing it's fine, you don't need to understand
-> to keep reading.
-
-TODO: make sure bash actually fork-execs
+__subprocess__. In order to execute a new command, the shell first asks the
+kernel to create a copy of itself using something like the `fork` system call
+([`man 2 fork`][fork]). This copy is identical, except for its process ID
+(PID). The new subprocess then replaces itself with the program you supplied
+([`man 2 execve`][execve]). This "program" is just a file (in *nix systems,
+everything is just a file) that has its executable permission bit set (if you've
+ever done a `chmod +x`).
 
 Using the `.` (or, in many shells, its equivalent command `source`) skips
 fork-exec and instead reads commands from a file directly into your shell as if
@@ -138,9 +110,6 @@ $ cat /tmp/getmypid
 echo "My PID is $$"
 echo "My parent's PID is $PPID"
 ```
-
-Notice `/tmp/getmypid` is an absolute file path. If our current working
-directory was `/tmp` we could also reference the same file as `./getmypid`.
 
 If we run it normally as an external program you'll notice that the PID is new
 (a subprocess) but the parent's PID is in fact our shell:
@@ -271,7 +240,7 @@ The actual IP address that gets sent over the wire is the binary representation
 of these octets. In fact, we can represent an IP address any number of ways.
 Let's hop into a Python interpreter to do some quick conversions:
 
-```python3
+```
 $ python3
 >>> ip_as_octets = '74.125.141.147'.split('.')
 ['74', '125', '141', '147']
@@ -287,7 +256,7 @@ $ python3
 '0x4a7d8d93'
 ```
 
-So, 74.125.141.147 is the same as 01001010011111011000110110010011 in binary,
+So, 74.125.141.147 is the same as 0b01001010011111011000110110010011 in binary,
 1249742227 in decimal, and 0x4a7d8d93 in hexadecimal.
 
 Aside: I noticed when writing this post that decimal and hexadecimal IPs are
@@ -300,19 +269,8 @@ While we've covered a lot of ground, we also definitely have not hit everything;
 take [regular expressions][regexp] as another example.
 
 Why the dot has been adopted and used in so many different ways? Maybe because
-of its use in language, its position on the keyboard, or its unimposing stature.
-I have no idea.
-
-Reusing the same, simple, character in so many ways is a blessing and a curse.
-We can take it at face level, but it's difficult to actually intuit what's going
-on.
-
-
-
-at what's actually going on under the hood. While opaque at first, software's
-ability to be broken down is one of my favorite things about the field.
-
-Sometimes it's fun to peel a few layers of the onion.
+it doesn't draw attention to itself? Because of its use in language? Its
+position on the keyboard? I have no idea.
 
 [filesystem-dot]: http://pubs.opengroup.org/onlinepubs/009604499/basedefs/xbd_chap04.html#tag_04_11
 [inode]: https://en.wikipedia.org/wiki/Inode
@@ -328,3 +286,6 @@ Sometimes it's fun to peel a few layers of the onion.
 [execve]: https://linux.die.net/man/2/execve
 [nameservers]: https://en.wikipedia.org/wiki/Name_server#Domain_Name_System
 [regexp]: https://regexone.com/lesson/wildcards_dot
+[syscall]: https://en.wikipedia.org/wiki/System_call
+[chdir]: https://linux.die.net/man/2/chdir
+[getcwd]: https://linux.die.net/man/2/getcwd
