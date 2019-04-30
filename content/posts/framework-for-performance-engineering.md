@@ -1,7 +1,7 @@
 ---
 title: "What I've learned about performance engineering [teams]"
 date: 2019-04-30
-draft: true
+draft: false
 
 ---
 
