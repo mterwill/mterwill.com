@@ -98,10 +98,10 @@ re-run it at will. Regardless, before you fix a problem, you need to pinpoint
 it.
 
 Once you've reproduced a performance issue once, you're not done. Don't run and
-make the fix yet! You cannot extrapolate a point measurement of slowness to that
-which you've observed in aggregate. I.e., if one database query made one web
-request slow for one user, that does **not** imply this same database query is
-responsible for the poor performance of an endpoint in aggregate.
+make the fix yet! You cannot extrapolate based on a single observation of
+slowness. I.e., if one database query made one web request slow for one user,
+that does **not** imply this same database query is responsible for the poor
+performance of an endpoint in aggregate.
 
 What you have now is a hypothesis. "I believe this database query causes the
 poor performance of this web endpoint for these _x_ users." We should now
@@ -118,22 +118,19 @@ Continue to fill out the story in your ticket with new information you gather at
 this stage. Depending on the scope of the problem, you may also find it helpful
 to break out isolated fixes into their own tickets.
 
-I know this is a lot of work. I know we haven't gotten to the fun stuff yet. I'm
-sorry, it's coming!
-
 ---
 
 Let's step back for a minute. First, we transformed raw performance data into a
 story. Next, we spent a couple hours investigating each story. We've now
 navigated our complex system and isolated a particular component that causes a
-measurable slowdown in a known context that's important to us and our customers.
-Y'all, that was the hard part.
+measurable slowdown in a known context that's necessarily important to us and
+our customers. Y'all, that was the hard part. Now comes the fun stuff.
 
-Now you get to decide what to work on first. How you sort your issues is up to
-you; at this stage you have all the information necessary to inform
-prioritization. You understand the who, what, when, where, why, and how for each
-issue. Go forth and write code! Don't forget to tie your story in a bow by
-measuring and documenting the impact of your improvements along the way.
+How you sort your issues is up to you; at this stage you have all the
+information necessary to inform prioritization. You understand the who, what,
+when, where, why, and how for each issue. Go forth and write code! Don't forget
+to tie your story in a bow by measuring and documenting the impact of your
+improvements along the way.
 
 ---
 
@@ -142,7 +139,8 @@ surface. As you establish a process that works for your organization, and
 improve tooling, etc., you can begin to share the wonderful world of performance
 engineering across your company. I find this, establishing a culture of
 performance, to be an ongoing challenge. I'm excited by the strides we've
-already made and for what lies ahead.
+already made and for what lies ahead. If you found this interesting and have
+thoughts or questions, I'd [love to chat][me]. Thanks!
 
 ## Some additional considerations
 * A dedicated performance engineering team cannot be _responsible_ for the
@@ -159,9 +157,6 @@ already made and for what lies ahead.
   with you. This sets aside time for you to triage one-off reports into stories
   without interrupting your normal prioritization flow. Office hours allow you
   to _look_ at new issues without obligating yourself to _fix_ them.
-
-If you found this interesting and have thoughts or questions, I'd [love to
-chat][me]. Thanks!
 
 [why-perf-matters]: https://developers.google.com/web/fundamentals/performance/why-performance-matters/
 [1205]: https://xkcd.com/1205/
