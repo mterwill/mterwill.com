@@ -59,7 +59,7 @@ questions to consider:
 
 * How does a given issue impact the customer?
 * How many customers does it impact?
-* How much do impacted the customers pay?
+* How much do the impacted customers pay?
 * Can you capture a video of the customer experience in this degraded
   performance state?
 * Does the issue block their workflow?
