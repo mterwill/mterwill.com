@@ -123,8 +123,8 @@ to break out isolated fixes into their own tickets.
 Let's step back for a minute. First, we transformed raw performance data into a
 story. Next, we spent a couple hours investigating each story. We've now
 navigated our complex system and isolated a particular component that causes a
-measurable slowdown in a known context that's necessarily important to us and
-our customers. Y'all, that was the hard part. Now comes the fun stuff.
+measurable slowdown in a known context. Y'all, that was the hard part. Now
+comes the fun stuff.
 
 How you sort your issues is up to you; at this stage you have all the
 information necessary to inform prioritization. You understand the who, what,
@@ -148,9 +148,9 @@ thoughts or questions, I'd [love to chat][me]. Thanks!
   _consulted_. (See [RACI][]) Performance is the responsibility of everyone
   across engineering.
 * While the practice of documentation may seem tedious at first, it's a muscle
-  you build over time. In performance engineering, you will necessarily need to
-  cross organizational boundaries. A well-written story allows you to share your
-  work effectively and efficiently, say, if you need to convince another team to
+  you build over time. In performance engineering, you will need to cross
+  organizational boundaries. A well-written story allows you to share your work
+  effectively and efficiently, say, if you need to convince another team to
   prioritize a performance improvement to their code.
 * If you have a performance engineering team, I recommend setting up office
   hours: dedicated time where anyone from across the organization can sit down
