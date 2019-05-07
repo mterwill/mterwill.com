@@ -65,7 +65,7 @@ questions to consider:
 * Does the issue block their workflow?
 * Does the issue impact anyone else (e.g. your customer's customer)?
 * Does the issue cause toil for support?
-* Has the issue cause customers to leave your product?
+* Has the issue caused customers to leave your product?
 
 Start building this story in the ticketing system of your choice.
 
