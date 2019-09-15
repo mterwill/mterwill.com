@@ -2,11 +2,11 @@
 <div class="content">
     {{ .Content }}
 </div>
-{{ if .Data.Pages }}
+{{ if .Pages }}
 <hr>
 <h2>Writing</h2>
 <ul class="recent-posts">
-    {{ range .Data.Pages }}
+    {{ range .Paginator.Pages }}
     <li>
         <span class="date">{{ .Date.Format "Jan 2, 2006" }}</span>
         <a href="{{ .Permalink }}">{{ .Title }}</a>
