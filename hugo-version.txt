@@ -1,0 +1,1 @@
+Hugo Static Site Generator v0.58.2/extended darwin/amd64 BuildDate: unknown
