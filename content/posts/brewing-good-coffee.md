@@ -16,6 +16,11 @@ over. I found beans that I enjoyed. I iterated on, and became increasingly more
 methodical with my process. Today, I don't change much; I've found what works
 for me.
 
+<div class="caption">
+    <img class="inline" src="/img/chemex.jpg" />
+    Daily brew
+</div>
+
 ## Beans
 
 I usually find my beans in local coffee shops/roasters. It's nice to sit down
@@ -71,5 +76,10 @@ Equipment can be expensive, but you don't need to buy it all.
 In learning to brew coffee, it helps to control for as many variables as
 possible. Tweaking a single dimension of your process in isolation will make it
 easier to improve your daily brew over time.
+
+<div class="caption">
+    <img class="inline" src="/img/camping.jpg" />
+    Camp coffee
+</div>
 
 [Trade Coffee]: https://www.drinktrade.com
