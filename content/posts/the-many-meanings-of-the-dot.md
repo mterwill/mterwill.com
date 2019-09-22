@@ -260,9 +260,8 @@ So, 74.125.141.147 is the same as 0b01001010011111011000110110010011 in binary,
 1249742227 in decimal, and 0x4a7d8d93 in hexadecimal.
 
 Aside: I noticed when writing this post that decimal and hexadecimal IPs are
-actually interpreted correctly by _something_ (we've gone down enough rabbit holes
-for today) &mdash; try passing one into `ping`, `curl`, or even your web
-browser. Nifty!
+actually valid for anything that uses [`inet_addr`][inet_addr] &mdash; try
+passing one into `ping`, `curl`, or even your web browser. Nifty!
 
 ## Recap
 While we've covered a lot of ground, we also definitely have not hit everything;
@@ -289,3 +288,4 @@ position on the keyboard? I have no idea.
 [syscall]: https://en.wikipedia.org/wiki/System_call
 [chdir]: https://linux.die.net/man/2/chdir
 [getcwd]: https://linux.die.net/man/2/getcwd
+[inet_addr]: https://linux.die.net/man/3/inet_addr
