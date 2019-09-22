@@ -4,3 +4,7 @@ languageCode: en-us
 title: Matt Terwilliger
 pygmentsCodefences: true
 pygmentsCodeFencesGuessSyntax: true
+disableKinds:
+- taxonomy
+- taxonomyTerm
+- section
