@@ -17,7 +17,7 @@ methodical with my process. Today, I don't change much; I've found what works
 for me.
 
 <div class="caption">
-    <img class="inline" src="/img/chemex.jpg" />
+    <img class="inline" src="chemex.jpg" />
     Daily brew
 </div>
 
@@ -78,7 +78,7 @@ possible. Tweaking a single dimension of your process in isolation will make it
 easier to improve your daily brew over time.
 
 <div class="caption">
-    <img class="inline" src="/img/camping.jpg" />
+    <img class="inline" src="camping.jpg" />
     Camp coffee
 </div>
 
