@@ -1,5 +1,9 @@
 ---
 talks:
+  - name: "When SLOs Aren't Enough: How to Get Things Done Across Teams"
+    date: 2020-03-24
+    url: https://docs.google.com/document/d/1tGg0wBgIrDJctGCvADZxrX5BfAjkVj7rDLGEIMMYtgk/edit#
+    where: SREcon20 Americas West
   - name: How Mailchimp Deploys 50+ Times Per Day
     date: 2018-02-27
     url: https://docs.google.com/presentation/d/1FeGITMtsCMc5dnzN9RyRvArLkOB3e3448S0rMoFkNrc/edit?usp=sharing
