@@ -3,7 +3,7 @@ h1: Matt Terwilliger
 ---
 
 <span style="font-size: 1.7em; padding-right: 5px;">&#128075;</span>
-I work as a Site Reliability Engineer for [Mailchimp][] in Atlanta, GA.
+I work as a Staff Engineer for [Mailchimp][] in Atlanta, GA.
 You can find me on [GitHub][], [Keybase][], and [LinkedIn][]. I occasionally
 share photos on [Instagram][].
 
